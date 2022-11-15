@@ -1,25 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext } from "react";
+import { AuthContext } from "./contexts/AuthContext";
+import GlobalStyles from "./components/GlobalStyles";
+import PublicRoutes from "./routes/public.routes";
+import PrivateRoutes from "./routes/private.routes";
 
-function App() {
+export default function App() {
+  const { auth } = useContext(AuthContext);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <GlobalStyles />
+      {auth ? <PrivateRoutes auth={auth} /> : <PublicRoutes />}
     </div>
   );
 }
-
-export default App;
