@@ -5,15 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import Logo from "../components/Logo";
 import Input from "../components/Input";
-import Button from "../components/Button"
+import Button from "../components/Button";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  async function handleSubmit(){
-
+  async function handleSubmit(e) {
+    e.preventDefault();
   }
   return (
     <Container>
@@ -44,22 +44,20 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  a{
+  a {
     color: white;
     font-weight: 700;
-font-size: 15px;
+    font-size: 15px;
   }
 `;
 
 const Form = styled.form`
-margin: 20px 25px 35px 20px;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-input{
+  margin: 20px 25px 35px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  input {
     margin-bottom: 10px;
-}
-`
-
-
+  }
+`;
