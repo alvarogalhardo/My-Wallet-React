@@ -18,8 +18,24 @@ time, mark, audio, video {
  padding: 0;
  border: 0;
  font-size: 100%;
- font: inherit;
+ font-family: 'Raleway';
  vertical-align: baseline;
+}
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+textarea:focus, input:focus{
+    outline: none;
+}
+a{
+    text-decoration: none;
+    color: inherit;
 }
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
