@@ -20,6 +20,7 @@ time, mark, audio, video {
  font-size: 100%;
  font-family: 'Raleway';
  vertical-align: baseline;
+ color: white
 }
 button, input[type="submit"], input[type="reset"] {
 	background: none;

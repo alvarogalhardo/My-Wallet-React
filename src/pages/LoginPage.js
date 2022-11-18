@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
+import { NameContext } from "../contexts/NameContext";
 import Logo from "../components/Logo";
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -11,7 +12,8 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const {setAuth} = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
+  const { setName } = useContext(NameContext);
   const postObj = {
     email,
     password,
@@ -26,8 +28,11 @@ export default function LoginPage() {
       alert("Insira uma senha");
     }
     try {
-      const token = await (await axios.post("http://localhost:5000/log-in", postObj)).data;
+      const { name, token } = await (
+        await axios.post("http://localhost:5000/log-in", postObj)
+      ).data;
       setAuth(token);
+      setName(name);
       navigate("/home");
     } catch (err) {
       console.log(err);
