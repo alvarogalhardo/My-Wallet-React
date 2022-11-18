@@ -31,6 +31,10 @@ button, input[type="submit"], input[type="reset"] {
 	cursor: pointer;
 	outline: inherit;
 }
+input{
+	box-shadow: none;
+	border: none;
+}
 textarea:focus, input:focus{
     outline: none;
 }
