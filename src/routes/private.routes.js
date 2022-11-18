@@ -3,7 +3,7 @@ import HomePage from "../pages/HomePage";
 import EntryPage from "../pages/EntryPage";
 import ExitPage from "../pages/ExitPage";
 
-export default function PrivateRoutes({auth}) {
+export default function PrivateRoutes() {
   return (
     <BrowserRouter>
       <Routes>

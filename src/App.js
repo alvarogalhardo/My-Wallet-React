@@ -9,7 +9,7 @@ export default function App() {
   return (
     <div className="App">
       <GlobalStyles />
-      {auth ? <PrivateRoutes auth={auth} /> : <PublicRoutes />}
+      {auth ? <PrivateRoutes /> : <PublicRoutes />}
     </div>
   );
 }

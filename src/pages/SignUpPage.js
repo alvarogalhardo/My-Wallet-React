@@ -7,17 +7,53 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 
 export default function SignUpPage() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [name, setName] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
+  const postObj = {
+    email,
+    password,
+    name,
+  };
   async function handleSubmit(e) {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Confirme a senha");
+      return;
+    }
+    try {
+      await axios.post("http://localhost:5000/sign-up", postObj);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
   }
   return (
     <Container>
       <Logo />
       <Form onSubmit={handleSubmit}>
-        <Input type="text" placeholder="Nome" />
-        <Input type="email" placeholder="E-mail" />
-        <Input type="password" placeholder="Senha" />
-        <Input type="password" placeholder="Confirme a Senha" />
+        <Input
+          type="text"
+          placeholder="Nome"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Input
+          type="email"
+          placeholder="E-mail"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="Senha"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="Confirme a Senha"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
         <Button type="submit">Cadastrar</Button>
       </Form>
       <Link to="/">Já tem uma conta? Entre agora!</Link>

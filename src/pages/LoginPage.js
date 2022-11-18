@@ -11,9 +11,27 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const {setAuth} = useContext(AuthContext);
+  const postObj = {
+    email,
+    password,
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!email) {
+      alert("Insira um e-mail válido");
+    }
+    if (!password) {
+      alert("Insira uma senha");
+    }
+    try {
+      const token = await (await axios.post("http://localhost:5000/log-in", postObj)).data;
+      setAuth(token);
+      navigate("/home");
+    } catch (err) {
+      console.log(err);
+    }
   }
   return (
     <Container>
