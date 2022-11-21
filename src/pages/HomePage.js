@@ -10,13 +10,25 @@ export default function HomePage() {
   const navigate = useNavigate();
   const { name } = useContext(NameContext);
   const [content, setContent] = useState([]);
-  const { auth } = useContext(AuthContext);
-
+  const { auth, setAuth } = useContext(AuthContext);
+  const [balance, setBalance] = useState();
   const CONFIG = {
     headers: {
       Authorization: `Bearer ${auth}`,
     },
   };
+
+  function findBalance(entries, exits) {
+    const positive = entries.reduce((a, b) => a + b, 0);
+    const negative = exits.reduce((a, b) => a + b, 0);
+    const balance = positive - negative;
+    setBalance(balance);
+  }
+
+  function logout() {
+    setAuth(null);
+    navigate("/");
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,20 +41,38 @@ export default function HomePage() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const entries = content
+      .filter((c) => c.type === "entry")
+      .map((c) => Number(c.value));
+    const exits = content
+      .filter((c) => c.type === "exit")
+      .map((c) => Number(c.value));
+    findBalance(entries, exits);
+  }, [content]);
+
   return (
     <Container>
       <Title>
         Olá, {name}
-        <ion-icon name="exit-outline"></ion-icon>
+        <ion-icon name="exit-outline" onClick={logout}></ion-icon>
       </Title>
       <Content>
+        <BalanceArea>
+          {content.length === 0 ? (
+            <NoContent>Não há registros de entrada ou saída</NoContent>
+          ) : (
+            content.map((movement) => (
+              <MovementData movement={movement} key={movement._id} />
+            ))
+          )}
+        </BalanceArea>
         {content.length === 0 ? (
-          <NoContent>Não há registros de entrada ou saída</NoContent>
-        ) : (
-          content.map((movement) => (
-            <MovementData movement={movement} key={movement._id} />
-          ))
-        )}
+          null
+        ) : <Balance balance={balance}>
+        <h1>Saldo</h1>
+        <h2>{balance}</h2>
+      </Balance>}
       </Content>
       <ButtonContainer>
         <MovementButton onClick={() => navigate("/entry")}>
@@ -99,7 +129,28 @@ const Content = styled.div`
   background-color: white;
   border-radius: 5px;
   padding: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const BalanceArea = styled.div`
   overflow-y: scroll;
+`;
+
+const Balance = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h1 {
+    color: black;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  h2 {
+    color: ${(props) => (props.balance > 0 ? "#03AC00" : "#C70000")};
+  }
 `;
 
 const MovementButton = styled.button`
@@ -124,8 +175,4 @@ const ButtonContainer = styled.div`
   margin: 12px 0 12px 0;
   width: 90%;
   height: 18%;
-`;
-
-const Movement = styled.div`
-  background-color: gray;
 `;
